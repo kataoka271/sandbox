@@ -1,0 +1,68 @@
+<html>
+
+<head>
+<title>LCD conditioning</title>
+<style>
+#time {
+  position: absolute;
+  font-size: large;
+  font-weight: bold;
+}
+.pos0 {
+  left: 10px;
+  top: 10px;
+}
+.pos1 {
+  top: 10px;
+  right: 10px;
+}
+.pos2 {
+  right: 10px;
+  bottom: 10px;
+}
+.pos3 {
+  bottom: 10px;
+  left: 10px;
+}
+</style>
+</head>
+
+<body style="background-color: rgb(0,0,0);">
+
+<video style="position: fixed; top:0; left:0; height:0;" muted autoplay loop>
+  <source type="video/webm" src="flower.webm">
+</video>
+
+<script type="text/javascript">
+const colors = [
+  ["rgb(0,0,0)", "rgb(255,255,255)"],
+  ["rgb(255,0,0)", "rgb(0,255,255)"],
+  ["rgb(0,255,0)", "rgb(255,0,255)"],
+  ["rgb(0,0,255)", "rgb(255,255,0)"],
+  ["rgb(0,255,255)", "rgb(255,0,0)"],
+  ["rgb(255,0,255)", "rgb(0,255,0)"],
+  ["rgb(255,255,0)", "rgb(0,0,255)"],
+  ["rgb(255,255,255)", "rgb(0,0,0)"]
+];
+
+const interval = 5;
+let i = 0;
+setInterval(function () {
+  i++;
+  const h = Math.floor(i / 60 / 60);
+  const m = Math.floor(i / 60) % 60;
+  const s = i % 60;
+  const c = Math.floor(i / interval) % colors.length;
+  document.body.style.backgroundColor = colors[c][0];
+  const e = document.getElementById("time");
+  e.textContent = ("00" + h).slice(-2) + ":" + ("00" + m).slice(-2) + ":" + ("00" + s).slice(-2);
+  e.style.color = colors[c][1];
+  e.className = "pos" + (Math.floor(i / interval) % 4);
+}, 1000);
+</script>
+
+<div id="time" class="pos0">00:00:00</div>
+
+</body>
+
+</html>
