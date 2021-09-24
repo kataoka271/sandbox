@@ -5,7 +5,6 @@
 <style>
 body {
   background-color: green;
-  cursor: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -13,6 +12,9 @@ body {
   right: 0;
   padding: 0;
   margin: 0;
+}
+.nocursor {
+  cursor: none;
 }
 #time {
   position: absolute;
@@ -58,6 +60,7 @@ const colors = [
 
 const interval = 5;
 let i = 0;
+let lastMouseEvent;
 setInterval(function () {
   i++;
   const h = Math.floor(i / 60 / 60);
@@ -69,7 +72,18 @@ setInterval(function () {
   e.textContent = ("00" + h).slice(-2) + ":" + ("00" + m).slice(-2) + ":" + ("00" + s).slice(-2);
   e.style.color = colors[c][1];
   e.className = "pos" + (Math.floor(i / interval) % 4);
+  if (new Date() - lastMouseEvent > 3000) {
+    document.body.className = "nocursor";
+  } else {
+    document.body.className = "";
+  }
 }, 1000);
+function onMouseEvent () {
+  lastMouseEvent = new Date();
+  document.body.className = "";
+}
+addEventListener("mousemove", onMouseEvent);
+addEventListener("mousedown", onMouseEvent);
 </script>
 
 <div id="time" class="pos0">00:00:00</div>
