@@ -61,7 +61,11 @@ const colors = [
 const interval = 5;
 let i = 0;
 let lastMouseEvent;
+let pause = false;
 setInterval(function () {
+  if (pause) {
+    return;
+  }
   i++;
   const h = Math.floor(i / 60 / 60);
   const m = Math.floor(i / 60) % 60;
@@ -78,12 +82,16 @@ setInterval(function () {
     document.body.className = "";
   }
 }, 1000);
-function onMouseEvent () {
+function onShowCursor () {
   lastMouseEvent = new Date();
   document.body.className = "";
 }
-addEventListener("mousemove", onMouseEvent);
-addEventListener("mousedown", onMouseEvent);
+function onPauseResume() {
+  pause = !pause;
+}
+addEventListener("mousemove", onShowCursor);
+addEventListener("mousedown", onShowCursor);
+addEventListener("click", onPauseResume);
 </script>
 
 <div id="time" class="pos0">00:00:00</div>
